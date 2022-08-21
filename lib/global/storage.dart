@@ -23,4 +23,5 @@ abstract class Storage {
 
   //
   static const currentSource = "currentSource";
+  static const dataResult = "dataResult";
 }

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:unisat_data/pages/home/home_state.dart';
-
 import 'package:unisat_data/widgets/svg/azt_svg_logo.dart';
-
 import 'home_controller.dart';
 
 class HomePage extends GetResponsiveView {

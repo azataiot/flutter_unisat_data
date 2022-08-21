@@ -4,13 +4,29 @@ enum ResultStatus {
 }
 
 class Result<T> {
-  late bool ok;
-  late final String? statusText;
-  final T? result;
+  bool? ok;
+  String? statusText;
+  T? result;
 
   Result({
-    required this.ok,
-    this.statusText = '',
+    this.ok,
+    this.statusText,
     this.result,
   });
+
+  Result.fromJson(Map<String, dynamic> json) {
+    ok = json['ok'];
+    statusText = json['statusText'];
+    if (json['result'] != null) {
+      result = json['result'];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ok'] = ok;
+    data['statusText'] = statusText;
+    data['result'] = result;
+    return data;
+  }
 }

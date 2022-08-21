@@ -24,6 +24,8 @@ class EntityRepository implements IEntityRepository {
     String currentSource = storage.read(app_config.Storage.currentSource) ?? "";
     // maybe we do not have any data providers
     if (currentSource.isEmpty) {
+      logger.w(
+          "[Azt] IEntityRepository.getEntities: no data providers found from the store");
       return Result(
         ok: false,
         statusText:

@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:unisat_data/data/repositories/repositories.dart';
-
+import 'package:unisat_data/global/configs.dart' as app_config;
 import '../../helpers/logging.dart';
 
 class ApiService extends GetxService {
@@ -10,6 +11,7 @@ class ApiService extends GetxService {
 
   late Timer timer;
   final IEntityRepository repository;
+  final storage = GetStorage();
 
   Future<ApiService> init() async {
     logger.i('$runtimeType delays 1 sec');
@@ -38,5 +40,6 @@ class ApiService extends GetxService {
     logger.i('update called!');
     Result result = await repository.getEntities();
     logger.i(result.statusText);
+    storage.write(app_config.Storage.dataResult, result);
   }
 }
