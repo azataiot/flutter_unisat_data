@@ -40,6 +40,6 @@ class ApiService extends GetxService {
     logger.i('update called!');
     Result result = await repository.getEntities();
     logger.i(result.statusText);
-    storage.write(app_config.Storage.dataResult, result);
+    await storage.write(app_config.Storage.dataResult, result);
   }
 }
