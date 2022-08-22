@@ -27,7 +27,7 @@ Future<void> initServices() async {
   logger.i("Get Storage initialized ...");
   Get.lazyPut<IEntityProvider>(() => EntityProvider());
   Get.lazyPut<IEntityRepository>(() => EntityRepository(provider: Get.find()));
-  await Get.putAsync(() => ApiService(repository: Get.find()).init());
+  // await Get.putAsync(() => ApiService(repository: Get.find()).init());
 }
 
 Future<void> main() async {

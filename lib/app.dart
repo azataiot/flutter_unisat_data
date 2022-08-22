@@ -33,7 +33,7 @@ Widget createApp() {
     themeMode: getThemeMode(themeMode),
     debugShowCheckedModeBanner: false,
     initialRoute: (storage.read(global_config.Storage.firstRun) ?? true)
-        ? AppRoutes.home
+        ? AppRoutes.selection
         : AppRoutes.home,
     getPages: AppPages.pages,
   );

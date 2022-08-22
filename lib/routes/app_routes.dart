@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../pages/home/home_binding.dart';
 import '../pages/home/home_view.dart';
+import '../pages/selection/selection_binding.dart';
+import '../pages/selection/selection_view.dart';
 
 abstract class AppPages {
   static final pages = [
@@ -10,6 +12,11 @@ abstract class AppPages {
       name: AppRoutes.home,
       page: () => HomePage(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.selection,
+      page: () => SelectionPage(),
+      binding: SelectionBinding(),
     ),
   ];
 }
@@ -23,6 +30,6 @@ abstract class AppRoutes {
   /// Home Page
   static const home = "/home";
 
-  /// Search
-  static const search = "/search";
+  /// Selection
+  static const selection = "/selection";
 }

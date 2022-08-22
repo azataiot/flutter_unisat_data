@@ -44,7 +44,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     pm10 = json['pm10'];
     pm25 = json['pm25'];
-    humidity = json['humidity'];
+    humidity = json['humidity.svg'];
     pressure = json['pressure'];
     timestamp = json['timestamp'];
     temperature = json['temperature'];
@@ -56,7 +56,7 @@ class Data {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['pm10'] = pm10;
     data['pm25'] = pm25;
-    data['humidity'] = humidity;
+    data['humidity.svg'] = humidity;
     data['pressure'] = pressure;
     data['timestamp'] = timestamp;
     data['temperature'] = temperature;

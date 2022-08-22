@@ -1,15 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:unisat_data/data/models/models.dart';
+import 'package:unisat_data/data/models/record.dart';
 import 'package:unisat_data/data/providers/providers.dart';
-import 'package:unisat_data/data/repositories/repositories.dart';
 import 'package:get/get.dart';
 import '../../helpers/logging.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:unisat_data/global/configs.dart' as app_config;
 
+import '../models/collection.dart';
+
 abstract class IEntityRepository {
   // repository can return null if anything wrong from the server or if we have blank fields
-  Future<Result<Entity>> getEntities();
+
+  Future getRecords();
+
+  Future getCollections();
 }
 
 class EntityRepository implements IEntityRepository {
@@ -19,23 +23,39 @@ class EntityRepository implements IEntityRepository {
   final IEntityProvider provider;
 
   @override
-  Future<Result<Entity>> getEntities() async {
-    logger.i("[Azt] IEntityRepository.getEntities called");
+  Future getCollections() async {
+    logger.d("[Azt::EntityRepository] getCollections called");
+    Response response =
+        await provider.getObjects("buckets/default/collections");
+    if (response.hasError) {
+      logger
+          .w("[Azt Repository] getCollections() error: ${response.statusText}");
+    } else {
+      CollectionResponse collectionResponse =
+          CollectionResponse.fromJson(await response.body);
+      var collections = collectionResponse.data!;
+      return collections;
+    }
+  }
+
+  @override
+  Future getRecords() async {
     String currentSource = storage.read(app_config.Storage.currentSource) ?? "";
-    // maybe we do not have any data providers
     if (currentSource.isEmpty) {
       logger.w(
-          "[Azt] IEntityRepository.getEntities: no data providers found from the store");
-      return Result(
-        ok: false,
-        statusText:
-            "No data providers online at this moment, please try again later.",
-      );
+          "[Azt::Repository] getRecords : no data providers found from the store");
+      return null;
     }
-    // we have data providers available
-    Response response = await provider.getEntities(currentSource);
-    logger.i(
-        "[Azt] IEntityRepository.getEntities.getEntities called with result: $response");
-    return Result(ok: true);
+    String path = "buckets/default/collections/$currentSource/records";
+    Response response = await provider.getObjects(path);
+    if (response.hasError) {
+      logger.w("getRecords() error: ${response.statusText}");
+      return null;
+    } else {
+      var responseBody = await response.body;
+      RecordResponse recordResponse = RecordResponse.fromJson(responseBody);
+      var records = recordResponse.data!;
+      return records;
+    }
   }
 }

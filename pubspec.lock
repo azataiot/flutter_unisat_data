@@ -161,6 +161,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  graphic:
+    dependency: "direct main"
+    description:
+      name: graphic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.6"
   http:
     dependency: transitive
     description:
@@ -176,7 +183,7 @@ packages:
     source: hosted
     version: "4.0.1"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"

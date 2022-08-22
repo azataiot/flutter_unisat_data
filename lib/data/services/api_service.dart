@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:unisat_data/data/models/collection.dart';
+import 'package:unisat_data/data/models/record.dart';
 import 'package:unisat_data/data/repositories/repositories.dart';
 import 'package:unisat_data/global/configs.dart' as app_config;
 import '../../helpers/logging.dart';
@@ -38,8 +40,24 @@ class ApiService extends GetxService {
 
   Future<void> updateData() async {
     logger.i('update called!');
-    Result result = await repository.getEntities();
-    logger.i(result.statusText);
-    await storage.write(app_config.Storage.dataResult, result);
+    dynamic records = await repository.getRecords();
+    if (records != null) {
+      List<Record> recordsList = List.from(records);
+      await storage.write(app_config.Storage.records, records);
+    } else {
+      logger.w("[Azt::ApiService] records is null!");
+    }
+  }
+
+  Future getCollections() async {
+    logger.i('get collections called!');
+    dynamic collections = await repository.getCollections();
+    if (collections != null) {
+      List<Collection> collectionsList = List.from(collections);
+      return collectionsList;
+    }
+    {
+      logger.w("[Azt::ApiService] collections is null");
+    }
   }
 }

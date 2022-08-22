@@ -41,6 +41,8 @@ dependencies:
   logger: ^1.1.0
   flutter_dotenv: ^5.0.2
   flutter_svg: ^1.1.4
+  graphic: ^0.10.6
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +71,11 @@ flutter:
     - .env
     - assets/logo/logo-unisat.svg
     - assets/logo/logo.svg
+    - assets/icons/temperature.svg
+    - assets/icons/humidity.svg
+    - assets/icons/pressure.svg
+    - assets/icons/pm10.svg
+    - assets/icons/pm25.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
