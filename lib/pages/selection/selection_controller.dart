@@ -47,9 +47,9 @@ class SelectionController extends GetxController {
     Get.offAllNamed(AppRoutes.home);
   }
 
-  getCollections() async {
+  getCollections() {
     logger.i('get collections called!');
-    dynamic collections = await repository.getCollections();
+    dynamic collections = repository.getCollections();
     if (collections != null) {
       state.errorMsg = "Collection is not null";
       update();
