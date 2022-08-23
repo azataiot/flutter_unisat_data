@@ -14,13 +14,13 @@ class SelectionController extends GetxController {
   final storage = GetStorage();
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
     state.errorMsg = "[Azt::SelectionController] onInit called";
     logger.d("[Azt::SelectionController] onInit called");
     logger.d("[Azt::SelectionController] getting collections");
     update();
-    var collections = getCollections();
+    var collections = await getCollections();
     state.errorMsg = "collections? $collections";
     state.isLoading = false;
     update();
@@ -47,9 +47,9 @@ class SelectionController extends GetxController {
     Get.offAllNamed(AppRoutes.home);
   }
 
-  getCollections() {
+  getCollections() async {
     logger.i('get collections called!');
-    dynamic collections = repository.getCollections();
+    dynamic collections = await repository.getCollections();
     if (collections != null) {
       state.errorMsg = "Collection is not null";
       update();
