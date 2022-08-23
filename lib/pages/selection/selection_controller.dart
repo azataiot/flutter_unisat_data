@@ -52,9 +52,9 @@ class SelectionController extends GetxController {
     if (collections != null) {
       List<Collection> collectionsList = List.from(collections);
       return collectionsList;
-    }
-    {
+    } else {
       logger.w("[Azt::ApiService] collections is null");
+      return null;
     }
   }
 }

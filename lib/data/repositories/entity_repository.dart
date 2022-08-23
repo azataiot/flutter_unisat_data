@@ -30,6 +30,7 @@ class EntityRepository implements IEntityRepository {
     if (response.hasError) {
       logger
           .w("[Azt Repository] getCollections() error: ${response.statusText}");
+      return null;
     } else {
       CollectionResponse collectionResponse =
           CollectionResponse.fromJson(await response.body);
