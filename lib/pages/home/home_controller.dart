@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:unisat_data/data/enums/selected.dart';
 import 'package:unisat_data/data/repositories/repositories.dart';
 import '../../helpers/logging.dart';
 import 'home_state.dart';
@@ -51,6 +53,9 @@ class HomeController extends GetxController {
     if (records != null) {
       // we got records and that is not null
       state.records = records;
+      state.lastUpdated = DateFormat.yMd().add_jms().format(
+          DateTime.fromMillisecondsSinceEpoch(
+              state.records![0].timestamp! * 1000));
       state.isConnecting = false;
       update();
     } else {
@@ -114,6 +119,31 @@ class HomeController extends GetxController {
       }
     });
     return allVars.reduce(max);
+  }
+
+  switchChart(EnumCurrentSelected type) {
+    switch (type) {
+      case EnumCurrentSelected.temperature:
+        state.currentSelected = EnumCurrentSelected.temperature;
+        update();
+        break;
+      case EnumCurrentSelected.humidity:
+        state.currentSelected = EnumCurrentSelected.humidity;
+        update();
+        break;
+      case EnumCurrentSelected.pressure:
+        state.currentSelected = EnumCurrentSelected.pressure;
+        update();
+        break;
+      case EnumCurrentSelected.pm25:
+        state.currentSelected = EnumCurrentSelected.pm25;
+        update();
+        break;
+      case EnumCurrentSelected.pm10:
+        state.currentSelected = EnumCurrentSelected.pm10;
+        update();
+        break;
+    }
   }
 }
 

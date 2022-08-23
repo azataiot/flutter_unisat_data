@@ -22,7 +22,7 @@ class EntityProvider extends BaseProvider implements IEntityProvider {
   // api, it just calls the corresponding api endpoint and returns always a response object.
 
   @override
-  Future getObjects(String path, {int? limit = 100}) async {
+  Future getObjects(String path, {int? limit = 200}) async {
     logger.i(
         "[Azt::Provider] getObjects called (EntityProvider) with path $path");
     var response = await get("$path?_limit=$limit");
