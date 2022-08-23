@@ -7,9 +7,7 @@ import 'package:unisat_data/pages/home/home_state.dart';
 import 'package:unisat_data/widgets/svg/azt_svg_logo.dart';
 import '../../data/enums/selected.dart';
 import '../../data/models/record.dart';
-import '../../data/tests/data.dart';
 import 'home_controller.dart';
-import 'package:graphic/graphic.dart';
 
 final _monthDayFormat = DateFormat('MM-dd HH:mm:ss');
 
@@ -284,18 +282,16 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: const [
-          SizedBox(height: 16),
-          Center(
-            child: Text(
-              "UniSat All rights Reserved",
-              style: TextStyle(fontSize: 12),
-            ),
-          )
-        ],
-      ),
+    return Column(
+      children: const [
+        SizedBox(height: 16),
+        Center(
+          child: Text(
+            "UniSat All rights Reserved",
+            style: TextStyle(fontSize: 12),
+          ),
+        )
+      ],
     );
   }
 }
