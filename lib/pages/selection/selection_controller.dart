@@ -16,11 +16,13 @@ class SelectionController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    state.errorMsg = "[Azt::SelectionController] onInit called";
     logger.d("[Azt::SelectionController] onInit called");
     logger.d("[Azt::SelectionController] getting collections");
     state.isLoading = true;
     update();
     var collections = await getCollections();
+    state.errorMsg = "collections? $collections";
     state.isLoading = false;
     update();
     logger.d("[Azt::SelectionController] onInit collections $collections");

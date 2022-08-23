@@ -133,6 +133,7 @@ class SelectionStatus extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text(state.errorMsg!),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text((statusType == HomeStatusType.error)
