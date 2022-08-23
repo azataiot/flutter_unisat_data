@@ -24,7 +24,7 @@ Widget createApp() {
     defaultTransition: Transition.native,
     enableLog: true,
     logWriterCallback: logWriter,
-    title: "app_title".tr,
+    title: "UniSat DataHub".tr,
     translations: I18N(),
     locale: I18N.locale,
     fallbackLocale: I18N.fallbackLocale,

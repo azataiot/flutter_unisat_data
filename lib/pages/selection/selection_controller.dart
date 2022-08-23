@@ -19,10 +19,10 @@ class SelectionController extends GetxController {
     // state.errorMsg = "[Azt::SelectionController] onInit called";
     logger.d("[Azt::SelectionController] onInit called");
     logger.d("[Azt::SelectionController] getting collections");
-    update();
     var collections = await getCollections();
     // state.errorMsg = "collections? $collections";
     state.isLoading = false;
+    state.isConnecting = true;
     update();
     logger.d("[Azt::SelectionController] onInit collections $collections");
     if (collections != null) {

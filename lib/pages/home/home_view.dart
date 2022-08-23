@@ -210,35 +210,35 @@ class PhoneBody extends StatelessWidget {
                 title: Row(
               children: [
                 Text(state.records!.isNotEmpty ? "Charts: " : 'updating...'),
-                ChartTextButton(
-                  title: "temperature",
-                  state: state,
-                  controller: controller,
+                ChartIconButton(
+                  svgAsset: "assets/icons/temperature.svg",
                   type: EnumCurrentSelected.temperature,
-                ),
-                ChartTextButton(
-                  title: "humidity",
                   state: state,
                   controller: controller,
+                ),
+                ChartIconButton(
+                  svgAsset: "assets/icons/humidity.svg",
                   type: EnumCurrentSelected.humidity,
-                ),
-                ChartTextButton(
-                  title: "pressure",
                   state: state,
                   controller: controller,
+                ),
+                ChartIconButton(
+                  svgAsset: "assets/icons/pressure.svg",
                   type: EnumCurrentSelected.pressure,
-                ),
-                ChartTextButton(
-                  title: "pm25",
                   state: state,
                   controller: controller,
+                ),
+                ChartIconButton(
+                  svgAsset: "assets/icons/pm25.svg",
                   type: EnumCurrentSelected.pm25,
-                ),
-                ChartTextButton(
-                  title: "pm10",
                   state: state,
                   controller: controller,
+                ),
+                ChartIconButton(
+                  svgAsset: "assets/icons/pm10.svg",
                   type: EnumCurrentSelected.pm10,
+                  state: state,
+                  controller: controller,
                 ),
               ],
             )),
@@ -505,7 +505,11 @@ class ChartIconButton extends StatelessWidget {
       onPressed: () {
         controller.switchChart(type);
       },
-      icon: SvgPicture.asset(svgAsset),
+      icon: SvgPicture.asset(
+        svgAsset,
+        width: 44,
+        height: 44,
+      ),
     );
   }
 }
