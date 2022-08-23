@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:graphic/graphic.dart';
 import 'package:intl/intl.dart';
 import 'package:unisat_data/pages/home/home_state.dart';
@@ -8,7 +9,9 @@ import 'package:unisat_data/routes/app_routes.dart';
 import 'package:unisat_data/widgets/svg/azt_svg_logo.dart';
 import '../../data/enums/selected.dart';
 import '../../data/models/record.dart';
+import '../../i18n/i18n.dart';
 import 'home_controller.dart';
+import 'package:unisat_data/global/configs.dart' as app_config;
 
 final _monthDayFormat = DateFormat('MM-dd HH:mm:ss');
 
@@ -22,7 +25,6 @@ class HomePage extends GetResponsiveView<HomeController>
     implements PreferredSizeWidget {
   @override
   final controller = Get.find<HomeController>();
-  final tabController = Get.find<HomeTabController>();
   final state = Get.find<HomeController>().state;
 
   HomePage({Key? key}) : super(key: key);
@@ -41,6 +43,7 @@ class HomePage extends GetResponsiveView<HomeController>
             ),
           ),
         ),
+        drawer: AppDrawer(state: state, controller: controller),
         body: PhoneBody(
           state: state,
           controller: controller,
@@ -63,6 +66,7 @@ class HomePage extends GetResponsiveView<HomeController>
             ),
           ),
         ),
+        drawer: AppDrawer(state: state, controller: controller),
         body: DesktopBody(
           controller: controller,
           state: state,
@@ -85,6 +89,10 @@ class HomePage extends GetResponsiveView<HomeController>
             ),
           ),
         ),
+        drawer: AppDrawer(
+          controller: controller,
+          state: state,
+        ),
         body: DesktopBody(
           controller: controller,
           state: state,
@@ -95,6 +103,124 @@ class HomePage extends GetResponsiveView<HomeController>
 
   @override
   Size get preferredSize => const Size.fromHeight(200);
+}
+
+class AppDrawer extends StatelessWidget {
+  const AppDrawer({
+    Key? key,
+    required this.controller,
+    required this.state,
+  }) : super(key: key);
+
+  final HomeController controller;
+  final HomeState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final storage = GetStorage();
+    return Drawer(
+      child: ListView(
+        // Important remove any padding from the list view
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.orange,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SvgPicture.asset(
+                    'assets/logo/logo-unisat.svg',
+                    height: 56,
+                    width: 56,
+                  ),
+                  FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      'UniSat DataHub'.tr,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  )
+                ],
+              )),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: TextButton(
+                          onPressed: () {
+                            storage.write(app_config.Storage.language, "EN");
+                            I18N.forceSetLocale("EN");
+                          },
+                          child: const Text("English")),
+                    ),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: TextButton(
+                          onPressed: () {
+                            storage.write(app_config.Storage.language, "KK");
+                            I18N.forceSetLocale("KK");
+                          },
+                          child: const Text("Қазақша")),
+                    ),
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: TextButton(
+                          onPressed: () {
+                            storage.write(app_config.Storage.language, "RU");
+                            I18N.forceSetLocale("RU");
+                          },
+                          child: const Text("Русский")),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Divider(),
+                Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: ListTile(
+                      leading: Text("data_providers".tr),
+                      trailing: IconButton(
+                          icon: const Icon(Icons.update),
+                          onPressed: () {
+                            controller.getCollections();
+                          }),
+                    )),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(state.collections!.length, (index) {
+                    return ListTile(
+                      title: TextButton(
+                        child: Text(state.collections![index].id ?? ""),
+                        onPressed: () async {
+                          await controller.handleSelectSource(
+                              state.collections![index].id!);
+                          Get.snackbar("Operation Successful!",
+                              "Switched to new data source ${state.collections![index].id!}");
+                        },
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class PhoneBody extends StatelessWidget {
@@ -148,7 +274,7 @@ class PhoneBody extends StatelessWidget {
                 CardOverView(
                   margin: const EdgeInsets.only(right: 8.0),
                   width: Get.width / 2 - 16,
-                  label: "temperature",
+                  label: "temperature".tr,
                   iconSvg: "assets/icons/temperature.svg",
                   data: state.records!.isNotEmpty
                       ? state.records![0].temperature.toString()
@@ -157,7 +283,7 @@ class PhoneBody extends StatelessWidget {
                 ),
                 CardOverView(
                   width: Get.width / 2 - 16,
-                  label: "humidity",
+                  label: "humidity".tr,
                   iconSvg: "assets/icons/humidity.svg",
                   data: state.records!.isNotEmpty
                       ? state.records![0].humidity.toString()
@@ -172,7 +298,7 @@ class PhoneBody extends StatelessWidget {
                 CardOverView(
                   margin: const EdgeInsets.only(right: 8.0),
                   width: Get.width / 2 - 16,
-                  label: "pressure",
+                  label: "pressure".tr,
                   iconSvg: "assets/icons/pressure.svg",
                   data: state.records!.isNotEmpty
                       ? state.records![0].pressure.toString()
@@ -210,7 +336,7 @@ class PhoneBody extends StatelessWidget {
             ListTile(
                 title: Row(
               children: [
-                Text(state.records!.isNotEmpty ? "Charts: " : 'updating...'),
+                Text(state.records!.isNotEmpty ? "charts".tr : 'updating...'),
                 ChartIconButton(
                   svgAsset: "assets/icons/temperature.svg",
                   type: EnumCurrentSelected.temperature,
@@ -258,13 +384,13 @@ class PhoneBody extends StatelessWidget {
               header: Text(state.records!.isNotEmpty
                   ? "Data (last 200 records)"
                   : 'updating...'),
-              columns: const [
-                DataColumn(label: Text("timestamp")),
-                DataColumn(label: Text("temperature")),
-                DataColumn(label: Text("humidity")),
-                DataColumn(label: Text("pressure")),
-                DataColumn(label: Text("pm2.5")),
-                DataColumn(label: Text("pm10")),
+              columns: [
+                DataColumn(label: Text("timestamp".tr)),
+                DataColumn(label: Text("temperature".tr)),
+                DataColumn(label: Text("humidity".tr)),
+                DataColumn(label: Text("pressure".tr)),
+                const DataColumn(label: Text("pm2.5")),
+                const DataColumn(label: Text("pm10")),
               ],
               source: TableDataSource(state: state, controller: controller),
             ),
@@ -306,7 +432,6 @@ class DesktopBody extends StatelessWidget {
 
   final HomeState state;
   final HomeController controller;
-  final tabController = Get.find<HomeTabController>();
 
   @override
   Widget build(BuildContext context) {
@@ -350,7 +475,7 @@ class DesktopBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CardOverView(
-                  label: "temperature",
+                  label: "temperature".tr,
                   iconSvg: "assets/icons/temperature.svg",
                   data: state.records!.isNotEmpty
                       ? state.records![0].temperature.toString()
@@ -358,7 +483,7 @@ class DesktopBody extends StatelessWidget {
                   unit: "°C",
                 ),
                 CardOverView(
-                  label: "humidity",
+                  label: "humidity".tr,
                   iconSvg: "assets/icons/humidity.svg",
                   data: state.records!.isNotEmpty
                       ? state.records![0].humidity.toString()
@@ -366,7 +491,7 @@ class DesktopBody extends StatelessWidget {
                   unit: "%",
                 ),
                 CardOverView(
-                  label: "pressure",
+                  label: "pressure".tr,
                   iconSvg: "assets/icons/pressure.svg",
                   data: state.records!.isNotEmpty
                       ? state.records![0].pressure.toString()
@@ -395,21 +520,21 @@ class DesktopBody extends StatelessWidget {
             ListTile(
                 title: Row(
               children: [
-                Text(state.records!.isNotEmpty ? "Charts: " : 'updating...'),
+                Text(state.records!.isNotEmpty ? "charts".tr : 'updating...'),
                 ChartTextButton(
-                  title: "temperature",
+                  title: "temperature".tr,
                   state: state,
                   controller: controller,
                   type: EnumCurrentSelected.temperature,
                 ),
                 ChartTextButton(
-                  title: "humidity",
+                  title: "humidity".tr,
                   state: state,
                   controller: controller,
                   type: EnumCurrentSelected.humidity,
                 ),
                 ChartTextButton(
-                  title: "pressure",
+                  title: "pressure".tr,
                   state: state,
                   controller: controller,
                   type: EnumCurrentSelected.pressure,
@@ -437,16 +562,15 @@ class DesktopBody extends StatelessWidget {
             const SizedBox(height: 10),
             PaginatedDataTable(
               columnSpacing: Get.width / 6 - 64,
-              header: Text(state.records!.isNotEmpty
-                  ? "Data (last 200 records)"
-                  : 'updating...'),
-              columns: const [
-                DataColumn(label: Text("Timestamp")),
-                DataColumn(label: Text("Temperature")),
-                DataColumn(label: Text("Humidity")),
-                DataColumn(label: Text("Pressure")),
-                DataColumn(label: Text("PM2.5")),
-                DataColumn(label: Text("PM10")),
+              header: Text(
+                  state.records!.isNotEmpty ? "data200".tr : 'updating...'),
+              columns: [
+                DataColumn(label: Text("timestamp".tr)),
+                DataColumn(label: Text("temperature".tr)),
+                DataColumn(label: Text("humidity".tr)),
+                DataColumn(label: Text("pressure".tr)),
+                const DataColumn(label: Text("PM2.5")),
+                const DataColumn(label: Text("PM10")),
               ],
               source: TableDataSource(state: state, controller: controller),
             ),
@@ -758,10 +882,10 @@ class HomeStatus extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text((statusType == HomeStatusType.error)
-                ? " 505 Ops ! An Error occurred while updating the data from the server."
+                ? "page_select_505".tr
                 : (statusType == HomeStatusType.loading)
-                    ? "Loading ..."
-                    : " Connecting to the UniSat Data Provider..."),
+                    ? "page_select_loading".tr
+                    : "page_select_connecting".tr),
           ),
           statusType == HomeStatusType.error
               ? SizedBox(

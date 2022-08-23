@@ -10,7 +10,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut<IEntityProvider>(() => EntityProvider());
     Get.lazyPut<IEntityRepository>(
         () => EntityRepository(provider: Get.find()));
-    Get.lazyPut(() => HomeTabController());
     Get.lazyPut(() => HomeController());
   }
 }

@@ -17,10 +17,10 @@ class SelectionPage extends GetResponsiveView<SelectionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AztSvgLogoText(
+        title: const AztSvgLogoText(
           svgAsset: 'assets/logo/logo-unisat.svg',
           spaceBetweenLogoAndText: 6.0,
-          logoText: 'app_name'.tr,
+          logoText: 'UniSat DataHub',
         ),
       ),
       body: GetBuilder<SelectionController>(builder: (controller) {
@@ -50,10 +50,11 @@ class SelectionPage extends GetResponsiveView<SelectionController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.only(top: 18, bottom: 18),
-                      child: Text("Select a data provider:"),
+                      padding:
+                          const EdgeInsetsDirectional.only(top: 18, bottom: 18),
+                      child: Text("page_select_select_provider".tr),
                     )
                   ],
                 ),
@@ -87,8 +88,8 @@ class SelectionPage extends GetResponsiveView<SelectionController> {
                                 const SizedBox(width: 8),
                                 Text(
                                     state.collections![index].id! == "unino"
-                                        ? "UniSat Sample Data Provider"
-                                        : "UniSat Data Provider",
+                                        ? "page_select_sample_provider".tr
+                                        : "page_select_unisat_provider".tr,
                                     style:
                                         const TextStyle(color: Colors.black87))
                               ],
@@ -137,10 +138,10 @@ class SelectionStatus extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text((statusType == HomeStatusType.error)
-                ? " 505 Ops ! An Error occurred while updating the data from the server."
+                ? " page_select_505".tr
                 : (statusType == HomeStatusType.loading)
-                    ? "Loading ..."
-                    : " Connecting to the UniSat Data Provider..."),
+                    ? "page_select_loading".tr
+                    : "page_select_connecting".tr),
           ),
           statusType == HomeStatusType.error
               ? const SizedBox.shrink()

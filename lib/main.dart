@@ -6,7 +6,6 @@ import 'package:unisat_data/data/providers/providers.dart';
 
 import 'app.dart';
 import 'data/repositories/entity_repository.dart';
-import 'data/services/api_service.dart';
 import 'helpers/logging.dart';
 
 Future<void> initServices() async {

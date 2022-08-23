@@ -6,7 +6,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:unisat_data/data/enums/selected.dart';
 import 'package:unisat_data/data/repositories/repositories.dart';
+import '../../data/models/collection.dart';
 import '../../helpers/logging.dart';
+import '../../routes/app_routes.dart';
 import 'home_state.dart';
 import 'package:unisat_data/global/configs.dart' as app_config;
 
@@ -32,7 +34,8 @@ class HomeController extends GetxController {
     state.isLoading = true;
 
     // first time data update
-    updateRecords();
+    await updateRecords();
+    await getCollections();
     //
     Future.delayed(const Duration(seconds: 1), () {
       state.isLoading = false;
@@ -158,17 +161,22 @@ class HomeController extends GetxController {
         break;
     }
   }
-}
 
-class HomeTabController extends GetxController
-    with GetSingleTickerProviderStateMixin {
-  late TabController controller;
+  getCollections() async {
+    logger.i('get collections called!');
+    dynamic collections = await repository.getCollections();
+    if (collections != null) {
+      List<Collection> collectionsList = List.from(collections);
+      state.collections = collectionsList;
+      update();
+    } else {
+      logger.w("[Azt::ApiService] collections is null");
+    }
+  }
 
-  @override
-  void onInit() {
-    // TabController
-    super.onInit();
-    controller = TabController(vsync: this, length: 5);
-    //
+  handleSelectSource(String source) async {
+    logger.d("[Azt::HomeController] onInit handleSelectSource $source");
+    await storage.write(app_config.Storage.currentSource, source);
+    update();
   }
 }
