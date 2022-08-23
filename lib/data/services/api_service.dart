@@ -40,7 +40,7 @@ class ApiService extends GetxService {
 
   Future<void> updateData() async {
     logger.i('update called!');
-    dynamic records = await repository.getRecords();
+    dynamic records = await repository.getRecords("");
     if (records != null) {
       List<Record> recordsList = List.from(records);
       await storage.write(app_config.Storage.records, records);

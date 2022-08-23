@@ -133,7 +133,7 @@ class PhoneBody extends StatelessWidget {
             // last updated
             Text(
               state.records!.isNotEmpty
-                  ? "last updated:  (${state.lastUpdated})"
+                  ? "last updated:  (${state.lastUpdated}) on ${state.currentSource ?? "unknown"}"
                   : 'updating...',
               style: const TextStyle(fontSize: 12),
             ),
@@ -336,7 +336,7 @@ class DesktopBody extends StatelessWidget {
             // last updated
             Text(
               state.records!.isNotEmpty
-                  ? "last updated:  (${state.lastUpdated})"
+                  ? "last updated:  (${state.lastUpdated}) on ${state.currentSource ?? "unknown"}"
                   : 'updating...',
               style: const TextStyle(fontSize: 12),
             ),

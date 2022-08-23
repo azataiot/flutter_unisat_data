@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +8,7 @@ import 'package:unisat_data/data/enums/selected.dart';
 import 'package:unisat_data/data/repositories/repositories.dart';
 import '../../helpers/logging.dart';
 import 'home_state.dart';
+import 'package:unisat_data/global/configs.dart' as app_config;
 
 enum VarType {
   temperature,
@@ -48,12 +48,24 @@ class HomeController extends GetxController {
     });
   }
 
+  getCurrentSources() async {
+    String currentSource = storage.read(app_config.Storage.currentSource) ?? "";
+    if (currentSource.isEmpty) {
+      logger.w("[Azt::HomeController]  no data providers found from the store");
+      return null;
+    } else {
+      return currentSource;
+    }
+  }
+
   updateRecords() async {
     logger.i('Home Controller update records called!');
-    dynamic records = await repository.getRecords();
+    String currentSource = await getCurrentSources();
+    dynamic records = await repository.getRecords(currentSource);
     if (records != null) {
       // we got records and that is not null
       state.records = records;
+      state.currentSource = currentSource;
       state.lastUpdated = DateFormat.yMd().add_jms().format(
           DateTime.fromMillisecondsSinceEpoch(
               state.records![0].timestamp! * 1000));

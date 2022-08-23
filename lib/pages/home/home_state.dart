@@ -11,6 +11,7 @@ class HomeState {
   List<Record>? records;
   List<Collection>? collections;
   String? lastUpdated;
+  String? currentSource;
   EnumCurrentSelected? currentSelected;
 
   HomeState() {

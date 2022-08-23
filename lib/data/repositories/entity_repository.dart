@@ -11,7 +11,7 @@ import '../models/collection.dart';
 abstract class IEntityRepository {
   // repository can return null if anything wrong from the server or if we have blank fields
 
-  Future getRecords();
+  Future getRecords(String currentSource);
 
   Future getCollections();
 }
@@ -40,13 +40,7 @@ class EntityRepository implements IEntityRepository {
   }
 
   @override
-  Future getRecords() async {
-    String currentSource = storage.read(app_config.Storage.currentSource) ?? "";
-    if (currentSource.isEmpty) {
-      logger.w(
-          "[Azt::Repository] getRecords : no data providers found from the store");
-      return null;
-    }
+  Future getRecords(String currentSource) async {
     String path = "buckets/default/collections/$currentSource/records";
     Response response = await provider.getObjects(path);
     if (response.hasError) {
