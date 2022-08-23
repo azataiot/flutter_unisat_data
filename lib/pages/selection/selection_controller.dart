@@ -14,13 +14,13 @@ class SelectionController extends GetxController {
   final storage = GetStorage();
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
     state.errorMsg = "[Azt::SelectionController] onInit called";
     logger.d("[Azt::SelectionController] onInit called");
     logger.d("[Azt::SelectionController] getting collections");
     update();
-    var collections = await getCollections();
+    var collections = getCollections();
     state.errorMsg = "collections? $collections";
     state.isLoading = false;
     update();
@@ -51,6 +51,8 @@ class SelectionController extends GetxController {
     logger.i('get collections called!');
     dynamic collections = await repository.getCollections();
     if (collections != null) {
+      state.errorMsg = "Collection is not null";
+      update();
       List<Collection> collectionsList = List.from(collections);
       return collectionsList;
     } else {
