@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:graphic/graphic.dart';
 import 'package:intl/intl.dart';
 import 'package:unisat_data/pages/home/home_state.dart';
+import 'package:unisat_data/routes/app_routes.dart';
 import 'package:unisat_data/widgets/svg/azt_svg_logo.dart';
 import '../../data/enums/selected.dart';
 import '../../data/models/record.dart';
@@ -763,7 +764,14 @@ class HomeStatus extends StatelessWidget {
                     : " Connecting to the UniSat Data Provider..."),
           ),
           statusType == HomeStatusType.error
-              ? const SizedBox.shrink()
+              ? SizedBox(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Get.offAllNamed(AppRoutes.selection);
+                    },
+                    child: const Text("Retry"),
+                  ),
+                )
               : const CircularProgressIndicator(),
         ],
       ),
