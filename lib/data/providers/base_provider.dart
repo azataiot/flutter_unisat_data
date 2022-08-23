@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import '../../helpers/logging.dart';
 
 class BaseProvider extends GetConnect {
-  final serverApiBaseUrl = dotenv.env['SERVER_API_BASE_URL'];
-  final token = dotenv.env['TOKEN'];
+  final serverApiBaseUrl = dotenv.get('SERVER_API_BASE_URL',
+      fallback: const String.fromEnvironment("SERVER_API_BASE_URL"));
+  final token =
+      dotenv.get('TOKEN', fallback: const String.fromEnvironment("TOKEN"));
 
   @override
   void onInit() {
