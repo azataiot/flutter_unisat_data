@@ -67551,6 +67551,9 @@ case 3:o=b
 s=!new A.In(o.c).Id(200,299)?4:6
 break
 case 4:n.c3(B.bh,"[Azt Repository] getCollections() error: "+A.d(o.d),null,null)
+q=null
+s=1
+break
 s=5
 break
 case 6:m=A
@@ -68057,8 +68060,10 @@ return A.M(p.ay.hh(),$async$hh)
 case 3:o=b
 if(o!=null){q=A.fh(o,!0,t.MO)
 s=1
-break}n.c3(B.bh,"[Azt::ApiService] collections is null",null,null)
-case 1:return A.R(q,r)}})
+break}else{n.c3(B.bh,"[Azt::ApiService] collections is null",null,null)
+q=null
+s=1
+break}case 1:return A.R(q,r)}})
 return A.S($async$hh,r)}}
 A.a76.prototype={}
 A.tl.prototype={
@@ -74357,4 +74362,3 @@ a(b.target)}for(var r=0;r<s.length;++r)s[r].addEventListener("load",onLoad,false
 var s=A.ajr
 if(typeof dartMainRunner==="function")dartMainRunner(s,[])
 else s([])})})()
-//# sourceMappingURL=main.dart.js.map
