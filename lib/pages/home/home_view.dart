@@ -371,7 +371,6 @@ class DesktopBody extends StatelessWidget {
                       ? state.records![0].pressure.toString()
                       : 'updating...',
                   unit: "kPa",
-                  width: 24,
                 ),
                 CardOverView(
                   label: "PM2.5",
