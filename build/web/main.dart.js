@@ -68025,10 +68025,10 @@ s.e=o
 r=$.f5()
 r.cb(B.a8,o,n,n)
 r.cb(B.a8,"[Azt::SelectionController] getting collections",n,n)
-s.b=!1
 p.co(0)
 q=p.jX()
 s.e="collections? "+A.d(q)
+s.b=!1
 p.co(0)
 r.cb(B.a8,"[Azt::SelectionController] onInit collections "+A.d(q),n,n)
 if(q!=null){s.a=q
