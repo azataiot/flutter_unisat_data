@@ -15,18 +15,27 @@ class SelectionController extends GetxController {
 
   @override
   void onInit() async {
+    super.onInit();
     logger.d("[Azt::SelectionController] onInit called");
     logger.d("[Azt::SelectionController] getting collections");
+    state.isLoading = true;
+    update();
     var collections = await getCollections();
-    logger.d("[Azt::HomeController] onInit collections $collections");
+    state.isLoading = false;
+    update();
+    logger.d("[Azt::SelectionController] onInit collections $collections");
     if (collections != null) {
       state.collections = collections;
+      state.isConnecting = false;
       logger.d(
-          "[Azt::HomeController] onInit collections length on state ${state.collections!.length}");
+          "[Azt::SelectionController] onInit collections length on state ${state.collections!.length}");
+      update();
+    } else {
+      logger.w("Getting records failed!");
+      state.isConnecting = false;
+      state.isError = true;
       update();
     }
-    update();
-    super.onInit();
   }
 
   handleSelectSource(String source) async {

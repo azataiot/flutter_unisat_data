@@ -38,6 +38,7 @@ class HomeController extends GetxController {
       state.isLoading = false;
       state.isConnecting = true;
       update();
+      updateRecords();
     });
 
     // setup the timer

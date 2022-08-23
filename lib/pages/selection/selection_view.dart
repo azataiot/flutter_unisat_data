@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unisat_data/pages/selection/selection_state.dart';
 
 import '../../widgets/svg/azt_svg_logo.dart';
+import '../home/home_view.dart';
 import 'selection_controller.dart';
 
 class SelectionPage extends GetResponsiveView<SelectionController> {
+  @override
+  final controller = Get.find<SelectionController>();
   final state = Get.find<SelectionController>().state;
 
   SelectionPage({Key? key}) : super(key: key);
@@ -13,23 +17,29 @@ class SelectionPage extends GetResponsiveView<SelectionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.menu),
-        ),
         title: AztSvgLogoText(
           svgAsset: 'assets/logo/logo-unisat.svg',
           spaceBetweenLogoAndText: 6.0,
           logoText: 'app_name'.tr,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert),
-          ),
-        ],
       ),
       body: GetBuilder<SelectionController>(builder: (controller) {
+        if (state.isError!) {
+          return SelectionStatus(
+              statusType: HomeStatusType.error,
+              controller: controller,
+              state: state);
+        } else if (state.isLoading!) {
+          return SelectionStatus(
+              statusType: HomeStatusType.loading,
+              controller: controller,
+              state: state);
+        } else if (state.isConnecting!) {
+          return SelectionStatus(
+              statusType: HomeStatusType.connecting,
+              controller: controller,
+              state: state);
+        }
         return Center(
           child: SizedBox(
             width: 400,
@@ -100,6 +110,42 @@ class SelectionPage extends GetResponsiveView<SelectionController> {
           ),
         );
       }),
+    );
+  }
+}
+
+class SelectionStatus extends StatelessWidget {
+  const SelectionStatus({
+    Key? key,
+    required this.statusType,
+    required this.controller,
+    required this.state,
+  }) : super(key: key);
+
+  final HomeStatusType statusType;
+  final SelectionController controller;
+  final SelectionState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Text((statusType == HomeStatusType.error)
+                ? " 505 Ops ! An Error occurred while updating the data from the server."
+                : (statusType == HomeStatusType.loading)
+                    ? "Loading ..."
+                    : " Connecting to the UniSat Data Provider..."),
+          ),
+          statusType == HomeStatusType.error
+              ? const SizedBox.shrink()
+              : const CircularProgressIndicator(),
+        ],
+      ),
     );
   }
 }
