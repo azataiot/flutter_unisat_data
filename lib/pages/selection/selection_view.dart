@@ -138,7 +138,7 @@ class SelectionStatus extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text((statusType == HomeStatusType.error)
-                ? " page_select_505".tr
+                ? "page_select_505".tr
                 : (statusType == HomeStatusType.loading)
                     ? "page_select_loading".tr
                     : "page_select_connecting".tr),
