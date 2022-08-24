@@ -1,7 +1,7 @@
 const Map<String, String> ruRU = {
   "app_title": "UniSat DataHub || UniSat Nano Satellite Data Sharing Platform",
   "app_name": "UniSat DataHub",
-  "page_select_select_provider:": "Выберите поставщика данных:",
+  "page_select_select_provider": "Выберите поставщика данных:",
   "page_select_sample_provider": "Поставщик образцов данных UniSat",
   "page_select_unisat_provider": "Поставщик данных UniSat",
   "page_select_505":

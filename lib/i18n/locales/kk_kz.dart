@@ -1,7 +1,7 @@
 const Map<String, String> kkKZ = {
   "app_title": "UniSat DataHub || UniSat Nano Satellite Data Sharing Platform",
   "app_name": "UniSat DataHub",
-  "page_select_select_provider:": "Деректер жеткізушісін таңдаңыз:",
+  "page_select_select_provider": "Деректер жеткізушісін таңдаңыз:",
   "page_select_sample_provider": "UniSat үлгі деректер жеткізушісі",
   "page_select_unisat_provider": "UniSat деректер жеткізушісі",
   "page_select_505":
