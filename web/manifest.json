@@ -1,6 +1,6 @@
 {
-    "name": "unisat_data",
-    "short_name": "unisat_data",
+    "name": "UniSat DataHub",
+    "short_name": "UniSat DataHub",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
