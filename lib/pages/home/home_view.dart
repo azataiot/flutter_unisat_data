@@ -496,7 +496,7 @@ class DesktopBody extends StatelessWidget {
                   data: state.records!.isNotEmpty
                       ? state.records![0].pressure.toString()
                       : 'updating...',
-                  unit: "kPa",
+                  unit: "hPa",
                 ),
                 CardOverView(
                   label: "PM2.5",
@@ -881,14 +881,18 @@ class HomeStatus extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Text((statusType == HomeStatusType.error)
-                ? "page_select_505".tr
-                : (statusType == HomeStatusType.loading)
-                    ? "page_select_loading".tr
-                    : "page_select_connecting".tr),
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text((statusType == HomeStatusType.error)
+                  ? "page_select_505".tr
+                  : (statusType == HomeStatusType.loading)
+                      ? "page_select_loading".tr
+                      : "page_select_connecting".tr),
+            ),
           ),
           statusType == HomeStatusType.error
-              ? SizedBox(
+              ? Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: ElevatedButton(
                     onPressed: () async {
                       Get.offAllNamed(AppRoutes.selection);
@@ -944,7 +948,7 @@ class TableDataSource extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(cells: [
       DataCell(Text(
-        DateFormat.yMd().add_jms().format(DateTime.fromMillisecondsSinceEpoch(
+        DateFormat.Hms().format(DateTime.fromMillisecondsSinceEpoch(
             state.records![index].timestamp! * 1000)),
       )),
       DataCell(

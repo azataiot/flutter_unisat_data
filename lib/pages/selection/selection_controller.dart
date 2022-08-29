@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../data/models/collection.dart';
@@ -54,10 +55,50 @@ class SelectionController extends GetxController {
       state.errorMsg = "Collection is not null";
       update();
       List<Collection> collectionsList = List.from(collections);
+      collectionsList.removeWhere((element) => element.id == "null");
       return collectionsList;
     } else {
       logger.w("[Azt::ApiService] collections is null");
       return null;
+    }
+  }
+
+  Future<bool> checkConnectivity() async {
+    bool status = false;
+    try {
+      final result = await InternetAddress.lookup("data-api.unisat.kz");
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        status = true;
+      }
+    } on SocketException catch (_) {
+      logger.w("InternetAddress.lookup failed, App is offline");
+      status = false;
+    }
+
+    return status;
+  }
+
+  reTry() async {
+    bool connectivity = await checkConnectivity();
+    if (connectivity) {
+      state.isError = false;
+      update();
+      var collections = await getCollections();
+      state.isLoading = false;
+      state.isConnecting = true;
+      update();
+      if (collections != null) {
+        state.collections = collections;
+        state.isConnecting = false;
+        logger.d(
+            "[Azt::SelectionController] onInit collections length on state ${state.collections!.length}");
+        update();
+      } else {
+        logger.w("Getting records failed!");
+        state.isConnecting = false;
+        state.isError = true;
+        update();
+      }
     }
   }
 }

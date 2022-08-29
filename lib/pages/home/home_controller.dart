@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +7,6 @@ import 'package:unisat_data/data/enums/selected.dart';
 import 'package:unisat_data/data/repositories/repositories.dart';
 import '../../data/models/collection.dart';
 import '../../helpers/logging.dart';
-import '../../routes/app_routes.dart';
 import 'home_state.dart';
 import 'package:unisat_data/global/configs.dart' as app_config;
 
@@ -167,6 +165,7 @@ class HomeController extends GetxController {
     dynamic collections = await repository.getCollections();
     if (collections != null) {
       List<Collection> collectionsList = List.from(collections);
+      collectionsList.removeWhere((element) => element.id == "null");
       state.collections = collectionsList;
       update();
     } else {

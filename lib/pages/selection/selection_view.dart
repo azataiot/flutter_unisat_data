@@ -144,7 +144,16 @@ class SelectionStatus extends StatelessWidget {
                     : "page_select_connecting".tr),
           ),
           statusType == HomeStatusType.error
-              ? const SizedBox.shrink()
+              ? Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                    child: ElevatedButton(
+                        onPressed: () async {
+                          await controller.reTry();
+                        },
+                        child: const Text("Retry")),
+                  ),
+                )
               : const CircularProgressIndicator(),
         ],
       ),
